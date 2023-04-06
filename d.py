@@ -9,6 +9,11 @@ app.minsize = (100, 100)
 app.maxsize = (900, 700)
 f=("Comic Sans MS", 14)
 
+a=TEdit(app, font=f, width=10)
+a.position=(0,200)
+a.text="sdfgs"
+
+
 def newk(sender):
     window1 = TApplication("Создать новый каталог")
     window1.position = (200, 200)
@@ -22,21 +27,22 @@ def newk(sender):
     lba.position = (10, 30)
     lbn = TLabel ( window1, text = "Содержание: ", font = f )
     lbn.position = (10, 60)
-    lbhh = TEdit ( window1, font = f, width = 35 )
-    lbhh.position = (150, 0)
-    lbhh.text = ""
+    a=TEdit(window1, font=f, width=35)
+    a.position=(150,0)
+    a.text="sdfgs"
     lbaa = TEdit ( window1, font = f, width = 35 )
     lbaa.position = (150, 30)
-    lbaa.text = ""
+    lbaa.text = "арвкеркы"
     lbnn = TEdit ( window1, font = f, width = 35 )
     lbnn.position = (150, 60)
-    lbnn.text = ""
+    lbnn.text = "ркуеыри укып"
     akn1 = TButton ( window1, text = "Далее ", width = 10)
     akn1.position = (10, 150)
     akn1["state"]="normal"
     akn2 = TButton ( window1, text = "Создать каталог ", width = 20 )
     akn2.position = (100, 150)
     akn2["state"]="normal"
+    window1.Run()
 
 def redk (sender):
     window3 = TApplication("Редактировать каталог")
@@ -101,11 +107,12 @@ def openk(sender):
     okn2.position = (200, 250)
     okn2["state"]="normal"
     okn2.onClick=poplk
+    prop = TEdit ( window2, font = f, width = 10 )
+    prop.position = (10, 10)
+    prop.text = ""
     with open('baza.txt', 'r', encoding="utf-8") as b:
         q=b.readlines()
-        qwer = TLabel ( window2, text=q, font = f )
-        qwer.position = (10, 0)
-
+        prop.text=q   
 
 def sodkn (sender):
     window5 = TApplication("Редактировать каталог")
@@ -195,6 +202,7 @@ kn5 = TButton ( app, text = "Получить список книг с зада�
 kn5.position = (10, 120)
 kn5["state"]="normal"
 
+
 kn1.onClick=newk  #название функции
 kn2.onClick=openk
 kn3.onClick=sodkn
@@ -202,6 +210,5 @@ kn4.onClick=nazkn
 kn5.onClick=slkn
 
 
-
-
 app.Run()
+
