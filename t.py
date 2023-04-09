@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import scrolledtext  
 from tkinter.messagebox import askokcancel
 window = Tk()
 window.title("Библиотечный каталог")
@@ -21,26 +22,48 @@ def create():
     lb3.grid(column=0, row=2)
     txt3 = Entry(window1, width=35, font = f)
     txt3.grid(column=1, row=2)
+    def ochist():
+        txt1.delete(0, END)
+        txt2.delete(0, END)
+        txt3.delete(0, END)
     def further():
-        res=txt1.get()
-        lb = Label(window1, text=res, font = f)
-        lb.grid(column=0, row=7)
-        b=open('book1.txt', 'w')
-        b.write(res)
-        
-    btn1 = Button(window1, text="Далее",  font=f, command=further )
-    btn1.grid(column=0, row=5)
-    btn2 = Button(window1, text="Создать каталог",  font=f, )
-    btn2.grid(column=1, row=5)
+        res=str(txt1.get())+str(txt2.get())+str(txt3.get())
+        with open ("book1.txt", 'w') as b:
+            q=b.write(res)
+        b.close()
+    btn1 = Button(window1, text="Далее",  font=f, command=further, state=NORMAL)
+    btn1.grid(column=0, row=6)
+    def sozdat():
+        okno = Tk()
+        okno.title("Новый каталог")
+        okno.geometry('400x250')
+        txt = scrolledtext.ScrolledText(okno, width=40, height=10, font=f)
+        txt.grid(column=0, row=0)
+        with open ("book1.txt", 'r') as b:
+            q=b.readlines()
+        txt.insert(INSERT, q)
+    btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
+    btn2.grid(column=1, row=6)
+    btn3 = Button(window1, text="Очистить",  font=f, command=ochist)
+    btn3.grid(column=1, row=5)
 
 def openk():
     window2 = Tk()
     window2.title("Открыть каталог")
     window2.geometry('450x185')
     btn1 = Button(window2, text="Редактировать каталог",  font=f)
-    btn1.grid(column=0, row=1)
+    btn1.grid(column=0, row=100)
     btn2 = Button(window2, text="Пополнить каталог",  font=f, )
-    btn2.grid(column=1, row=1)
+    btn2.grid(column=1, row=100)
+        
+    with open('baza.txt', 'r', encoding="utf-8") as b:
+        kol=0
+        for line in b:
+            q=line.strip()
+            kol=kol+1
+            lb = Label(window2, text=q, font = f)
+            lb.grid(column=0, row=kol)
+
     
 def receive_inside():
     window3 = Tk()
