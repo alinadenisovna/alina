@@ -21,12 +21,18 @@ def create():
     lb3.grid(column=0, row=2)
     txt3 = Entry(window1, width=35, font = f)
     txt3.grid(column=1, row=2)
-    btn1 = Button(window1, text="Далее",  font=f, )
+    def further():
+        res=txt1.get()
+        lb = Label(window1, text=res, font = f)
+        lb.grid(column=0, row=7)
+        b=open('book1.txt', 'w')
+        b.write(res)
+        
+    btn1 = Button(window1, text="Далее",  font=f, command=further )
     btn1.grid(column=0, row=5)
     btn2 = Button(window1, text="Создать каталог",  font=f, )
     btn2.grid(column=1, row=5)
-    
-    
+
 def openk():
     window2 = Tk()
     window2.title("Открыть каталог")
