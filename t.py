@@ -28,7 +28,7 @@ def create():
         txt3.delete(0, END)
     def further():
         res=str(txt1.get())+str(txt2.get())+str(txt3.get())
-        with open ("book1.txt", 'w') as b:
+        with open ("katalog.txt", 'a') as b:
             q=b.write(res)
         b.close()
     btn1 = Button(window1, text="Далее",  font=f, command=further, state=NORMAL)
@@ -39,7 +39,7 @@ def create():
         okno.geometry('400x250')
         txt = scrolledtext.ScrolledText(okno, width=40, height=10, font=f)
         txt.grid(column=0, row=0)
-        with open ("book1.txt", 'r') as b:
+        with open ("katalog.txt", 'r') as b:
             q=b.readlines()
         txt.insert(INSERT, q)
     btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
@@ -50,14 +50,39 @@ def create():
 def openk():
     window2 = Tk()
     window2.title("Открыть каталог")
-    window2.geometry('450x185')
+    window2.geometry('700x500')
     btn1 = Button(window2, text="Редактировать каталог",  font=f)
     btn1.grid(column=0, row=100)
-    btn2 = Button(window2, text="Пополнить каталог",  font=f, )
+    def popoln():
+        okno1 = Tk()
+        okno1.title("Создать новый каталог")
+        okno1.geometry('450x185')
+        lb1 = Label(okno1, text="Автор:", font = f)
+        lb1.grid(column=0, row=0)
+        txt1 = Entry(okno1, width=35, font = f)
+        txt1.grid(column=1, row=0)
+        lb2 = Label (okno1, text = "Название: ", font = f )
+        lb2.grid(column=0, row=1)
+        txt2 = Entry(okno1, width=35, font = f)
+        txt2.grid(column=1, row=1)
+        lb3 = Label (okno1, text = "Содержание: ", font = f )
+        lb3.grid(column=0, row=2)
+        txt3 = Entry(okno1, width=35, font = f)
+        txt3.grid(column=1, row=2)
+        def ok():
+            res=txt1.get()+txt2.get()+txt3.get()
+            with open ("baza.txt", 'a') as b:
+                q=b.write(res)
+            b.close()
+            okno1.destroy()
+            lbl = Label(okno1, text=q, font = f)
+            lbl.grid(column=0, row=0)
+        btn = Button(okno1, text="ок",  font=f, command=ok)
+        btn.grid(column=0, row=4)
+    btn2 = Button(window2, text="Пополнить каталог",  font=f, command=popoln)
     btn2.grid(column=1, row=100)
-        
-    with open('baza.txt', 'r', encoding="utf-8") as b:
-        kol=0
+    with open('baza.txt', 'r') as b:
+        kol=1
         for line in b:
             q=line.strip()
             kol=kol+1
