@@ -51,11 +51,26 @@ def openk():
     window2 = Tk()
     window2.title("Открыть каталог")
     window2.geometry('700x500')
-    btn1 = Button(window2, text="Редактировать каталог",  font=f)
+    def redakt():
+        okno2 = Tk()
+        okno2.title("Редактировать каталог")
+        okno2.geometry('450x300')
+        txt = scrolledtext.ScrolledText(okno2, width=40, height=10, font=f)
+        txt.grid(column=0, row=0)
+        with open ("baza.txt", 'r') as b:
+            q=b.readlines()
+        txt.insert(INSERT, q)
+        def ok():
+            #
+            okno2.destroy()
+        btn = Button(okno2, text="ок",  font=f, command=ok)
+        btn.grid(column=0, row=2)
+        
+    btn1 = Button(window2, text="Редактировать каталог",  font=f, command=redakt)
     btn1.grid(column=0, row=100)
     def popoln():
         okno1 = Tk()
-        okno1.title("Создать новый каталог")
+        okno1.title("Пополнить каталог")
         okno1.geometry('450x185')
         lb1 = Label(okno1, text="Автор:", font = f)
         lb1.grid(column=0, row=0)
@@ -69,11 +84,10 @@ def openk():
         lb3.grid(column=0, row=2)
         txt3 = Entry(okno1, width=35, font = f)
         txt3.grid(column=1, row=2)
-        def ok():
+        def ok(): #
             res=txt1.get()+txt2.get()+txt3.get()
             with open ("baza.txt", 'a') as b:
                 q=b.write(res)
-            b.close()
             okno1.destroy()
             lbl = Label(okno1, text=q, font = f)
             lbl.grid(column=0, row=0)
@@ -96,15 +110,28 @@ def receive_inside():
     window3.geometry('450x185')
     lb1 = Label(window3, text="Автор:", font = f)
     lb1.grid(column=0, row=0)
-    
+    txt1 = Entry(window3, width=35, font = f)
+    txt1.grid(column=1, row=0)
     lb2 = Label ( window3, text = "Название: ", font = f )
     lb2.grid(column=0, row=1)
-    
+    txt1 = Entry(window3, width=35, font = f)
+    txt1.grid(column=1, row=1)
     lb3 = Label ( window3, text = "Содержание: ", font = f )
     lb3.grid(column=0, row=4)
-    
-    btn1 = Button(window3, text="ок",  font=f, )
+    def soderj():
+        with open('1.txt', 'r') as b:
+            q=b.readlines()
+            for line in b:
+                a=line.strip()
+                b=txt1.get()
+                if a==b:
+                    txt3 = Entry(window3, width=35, font = f)
+                    txt3.grid(column=1, row=4)
+                    txt3.insert(INSERT, "")
+                    break
+    btn1 = Button(window3, text="ок",  font=f, command=soderj)
     btn1.grid(column=0, row=3)
+    
     
 def receive_book():
     window4 = Tk()
