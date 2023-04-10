@@ -6,7 +6,7 @@ window.title("Библиотечный каталог")
 window.geometry('370x185')
 f=("Times New Roman", 14)
 
-def create():
+def create(): #надо чтобы сохранялось написанное в строки
     window1 = Tk()
     window1.title("Создать новый каталог")
     window1.geometry('450x185')
@@ -40,8 +40,10 @@ def create():
         txt = scrolledtext.ScrolledText(okno, width=40, height=10, font=f)
         txt.grid(column=0, row=0)
         with open ("katalog.txt", 'r') as b:
-            q=b.readlines()
-        txt.insert(INSERT, q)
+            for line in b:
+                q=line.strip()
+                print(q) #удалить в окно не выводит строками, а в idle выводит, значит ошибка в работе с окном
+                txt.insert(INSERT, q)        
     btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
     btn2.grid(column=1, row=6)
     btn3 = Button(window1, text="Очистить",  font=f, command=ochist)
@@ -51,7 +53,7 @@ def openk():
     window2 = Tk()
     window2.title("Открыть каталог")
     window2.geometry('700x500')
-    def redakt():
+    def redakt(): #надо чтобы отредактирвоанный текст сохранялся в файл + избавиться от {}
         okno2 = Tk()
         okno2.title("Редактировать каталог")
         okno2.geometry('450x300')
@@ -119,7 +121,7 @@ def receive_inside():
     lb3 = Label ( window3, text = "Содержание: ", font = f )
     lb3.grid(column=0, row=4)
     def soderj():
-        with open('1.txt', 'r') as b:
+        with open('1.txt', 'r') as b: #чтобы каждое сохранялось в новый файл, цикл для названия?
             q=b.readlines()
             for line in b:
                 a=line.strip()
