@@ -27,10 +27,11 @@ def create(): #надо чтобы сохранялось написанное �
         txt2.delete(0, END)
         txt3.delete(0, END)
     def further():
-        res=str(txt1.get())+str(txt2.get())+str(txt3.get())
-        with open ("katalog.txt", 'a') as b:
+        index=1
+        res=txt1.get()+txt2.get()+txt3.get()
+        with open (f'{index}.txt', 'w') as b: #начинает с 1, надо как-то с кнопкой связать, чтобы когда нажимаешь index был +1
             q=b.write(res)
-        b.close()
+            index=index+1
     btn1 = Button(window1, text="Далее",  font=f, command=further, state=NORMAL)
     btn1.grid(column=0, row=6)
     def sozdat():
@@ -39,11 +40,13 @@ def create(): #надо чтобы сохранялось написанное �
         okno.geometry('400x250')
         txt = scrolledtext.ScrolledText(okno, width=40, height=10, font=f)
         txt.grid(column=0, row=0)
-        with open ("katalog.txt", 'r') as b:
+        index=1
+        with open (f'{index}.txt', 'r') as b:
             for line in b:
                 q=line.strip()
-                print(q) #удалить в окно не выводит строками, а в idle выводит, значит ошибка в работе с окном
-                txt.insert(INSERT, q)        
+                #в окно не выводит строками, а в idle выводит, значит ошибка в работе с окном
+                txt.insert(INSERT, q)
+            index=index+1
     btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
     btn2.grid(column=1, row=6)
     btn3 = Button(window1, text="Очистить",  font=f, command=ochist)
@@ -121,7 +124,7 @@ def receive_inside():
     lb3 = Label ( window3, text = "Содержание: ", font = f )
     lb3.grid(column=0, row=4)
     def soderj():
-        with open('1.txt', 'r') as b: #чтобы каждое сохранялось в новый файл, цикл для названия?
+        with open('1.txt', 'r') as b: 
             q=b.readlines()
             for line in b:
                 a=line.strip()
