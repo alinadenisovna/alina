@@ -6,7 +6,7 @@ window.title("Библиотечный каталог")
 window.geometry('370x185')
 f=("Times New Roman", 14)
 
-def create(): #надо чтобы сохранялось написанное в строки
+def create(): 
     window1 = Tk()
     window1.title("Создать новый каталог")
     window1.geometry('450x185')
@@ -27,26 +27,23 @@ def create(): #надо чтобы сохранялось написанное �
         txt2.delete(0, END)
         txt3.delete(0, END)
     def further():
-        index=1
-        res=txt1.get()+txt2.get()+txt3.get()
-        with open (f'{index}.txt', 'w') as b: #начинает с 1, надо как-то с кнопкой связать, чтобы когда нажимаешь index был +1
-            q=b.write(res)
-            index=index+1
+        lines=["Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()]
+        with open ('new.txt', 'a') as b: 
+            for line in lines:
+                q=b.write(line+'\n')
     btn1 = Button(window1, text="Далее",  font=f, command=further, state=NORMAL)
     btn1.grid(column=0, row=6)
     def sozdat():
         okno = Tk()
         okno.title("Новый каталог")
         okno.geometry('400x250')
-        txt = scrolledtext.ScrolledText(okno, width=40, height=10, font=f)
-        txt.grid(column=0, row=0)
-        index=1
-        with open (f'{index}.txt', 'r') as b:
+        with open('new.txt', 'r') as b:
+            kol=1
             for line in b:
                 q=line.strip()
-                #в окно не выводит строками, а в idle выводит, значит ошибка в работе с окном
-                txt.insert(INSERT, q)
-            index=index+1
+                kol=kol+1
+                lb = Label(okno, text=q, font = f)
+                lb.grid(column=0, row=kol)
     btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
     btn2.grid(column=1, row=6)
     btn3 = Button(window1, text="Очистить",  font=f, command=ochist)
@@ -55,22 +52,39 @@ def create(): #надо чтобы сохранялось написанное �
 def openk():
     window2 = Tk()
     window2.title("Открыть каталог")
-    window2.geometry('700x500')
-    def redakt(): #надо чтобы отредактирвоанный текст сохранялся в файл + избавиться от {}
+    window2.geometry('600x400')
+    with open('baza.txt', 'r') as b:
+        kol=1
+        for line in b:
+            q=line.strip()
+            kol=kol+1
+            lb = Label(window2, text=q, font = f)
+            lb.grid(column=0, row=kol)  
+    def redakt():
         okno2 = Tk()
         okno2.title("Редактировать каталог")
-        okno2.geometry('450x300')
-        txt = scrolledtext.ScrolledText(okno2, width=40, height=10, font=f)
+        okno2.geometry('500x500')
+        txt = scrolledtext.ScrolledText(okno2, width=52, height=20, font=f)
         txt.grid(column=0, row=0)
-        with open ("baza.txt", 'r') as b:
-            q=b.readlines()
-        txt.insert(INSERT, q)
-        def ok():
-            #
-            okno2.destroy()
+        with open ("baza.txt", 'r') as b: 
+            for line in b:
+                q=line.strip()
+                txt.insert(INSERT, q+'\n')
+        def ok(): 
+            res=txt.get('1.0', 'end-1c' )
+            with open('baza.txt', 'r') as b:
+                lb2 = Label(window2, text=res, font = f)
+                lb2.grid(column=0, row=0)
+            #в файл у меня по буквам сохраняется!:
+            with open ('redkat.txt', 'w') as b:
+                for line in res:
+                    q=b.write(line+'\n')
+           
+            lb.destroy() #cтарый текст должен удаляться, удаляется только последняя строка
+            okno2.destroy
+            
         btn = Button(okno2, text="ок",  font=f, command=ok)
         btn.grid(column=0, row=2)
-        
     btn1 = Button(window2, text="Редактировать каталог",  font=f, command=redakt)
     btn1.grid(column=0, row=100)
     def popoln():
@@ -89,7 +103,7 @@ def openk():
         lb3.grid(column=0, row=2)
         txt3 = Entry(okno1, width=35, font = f)
         txt3.grid(column=1, row=2)
-        def ok(): #
+        def ok(): #####################
             res=txt1.get()+txt2.get()+txt3.get()
             with open ("baza.txt", 'a') as b:
                 q=b.write(res)
@@ -100,14 +114,6 @@ def openk():
         btn.grid(column=0, row=4)
     btn2 = Button(window2, text="Пополнить каталог",  font=f, command=popoln)
     btn2.grid(column=1, row=100)
-    with open('baza.txt', 'r') as b:
-        kol=1
-        for line in b:
-            q=line.strip()
-            kol=kol+1
-            lb = Label(window2, text=q, font = f)
-            lb.grid(column=0, row=kol)
-
     
 def receive_inside():
     window3 = Tk()
