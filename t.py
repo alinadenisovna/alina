@@ -27,7 +27,7 @@ def create():
         txt2.delete(0, END)
         txt3.delete(0, END)
     def further():
-        lines=["Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()]
+        lines=['\n'+"Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()]
         with open ('new.txt', 'a') as b: 
             for line in lines:
                 q=b.write(line+'\n')
@@ -50,7 +50,7 @@ def create():
     btn3.grid(column=1, row=5)
 
 
-def openk(): #(глобально): надо чтобы новый каталог (ред/попол) он выводил из файла, тогда 0 проблем
+def openk(): #cтарый текст должен удаляться, удаляется только последняя строка (потому что у меня цикл для lb и получается они все так называются)
     window2 = Tk()
     window2.title("Открыть каталог")
     window2.geometry('600x400')
@@ -67,13 +67,11 @@ def openk(): #(глобально): надо чтобы новый катало�
         def ok(): 
             res=txt.get('1.0', 'end-1c' )
             with open('baza.txt', 'r') as b:
-                lb2 = Label(window2, text=res, font = f)
+                lb2 = Label(window2, text=res+'\n', font = f)
                 lb2.grid(column=0, row=0)
-            #в файл у меня по буквам сохраняется!:
-            with open ('new.txt', 'w') as b:
-                for line in res:
-                    q=b.write(line+'\n')
-            lb.destroy() #cтарый текст должен удаляться, удаляется только последняя строка (потому что у меня цикл для lbи получается огни все так называются)
+            with open ('redk.txt', 'w') as b:
+                q=b.write(res+'\n')
+            lb.destroy() #
             okno2.destroy
         btn = Button(okno2, text="ок",  font=f, command=ok)
         btn.grid(column=0, row=2)
@@ -95,14 +93,20 @@ def openk(): #(глобально): надо чтобы новый катало�
         lb3.grid(column=0, row=2)
         txt3 = Entry(okno1, width=35, font = f)
         txt3.grid(column=1, row=2)
-        def ok(): #надо чтобы текст сохранялся в первое окно
-            lines=['\n'+"Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()]
+        def ok(): 
+            res=['\n'+"Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()]
             with open ('baza.txt', 'a') as b:
-                for line in lines:
+                for line in res:
                     q=b.write(line+'\n')
+            with open('baza.txt', 'r') as b:
+                kol=1
+                for line in b:
+                    q=line.strip()
+                    lbb=Label(window2, text=q, font = f)
+                    lbb.grid(column=0, row=kol)
+                    kol=kol+1
+                #    
             okno1.destroy()
-            lb1 = Label(window2, text=q, font = f)
-            lb1.grid(column=0, row=25)
         btn = Button(okno1, text="ок",  font=f, command=ok)
         btn.grid(column=0, row=4)
     btn2 = Button(window2, text="Пополнить каталог",  font=f, command=popoln)
@@ -131,14 +135,15 @@ def receive_inside():
     lb3 = Label ( window3, text = "Содержание: ", font = f )
     lb3.grid(column=0, row=4)
     def soderj():
-        a=["Автор: "+txt1.get()]
-        n=["Название: "+txt2.get()]
+        a="Автор: "+txt1.get()
+        n="Название: "+txt2.get()
         with open('baza.txt', 'r') as b:
-           for line in b:
-               if a==line:
-                   txt3 = Entry(window3, width=35, font = f)
-                   txt3.grid(column=1, row=4)
-                   txt3.insert(INSERT, "")
+           for line in b.readlines():
+               if line.find(a)!=-1:
+                    txt3 = Entry(window3, width=35, font = f)
+                    txt3.grid(column=1, row=4)
+                    txt3.insert(INSERT, line3)
+                    
     
     btn1 = Button(window3, text="ок",  font=f, command=soderj)
     btn1.grid(column=0, row=3)
