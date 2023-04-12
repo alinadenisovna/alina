@@ -71,6 +71,7 @@ def openk(): #cтарый текст должен удаляться, удаля
                 lb2.grid(column=0, row=0)
             with open ('redk.txt', 'w') as b:
                 q=b.write(res+'\n')
+            
             lb.destroy() #
             okno2.destroy
         btn = Button(okno2, text="ок",  font=f, command=ok)
@@ -142,7 +143,7 @@ def receive_inside():
                if line.find(a)!=-1:
                     txt3 = Entry(window3, width=35, font = f)
                     txt3.grid(column=1, row=4)
-                    txt3.insert(INSERT, line3)
+                    txt3.insert(INSERT, line)
                     
     
     btn1 = Button(window3, text="ок",  font=f, command=soderj)
@@ -174,11 +175,15 @@ def receive_list():
     lb2 = Label ( window5, text = "Список книг: ", font = f )
     lb2.grid(column=0, row=3)
     def ok():
-        request=[txt1.get()]
-        with open ('baza.txt', 'r') as b: 
-            for line in b:
-                q=str(line.strip())
-               
+        a=txt1.get()
+        with open('baza.txt', 'r') as b:
+            kol=3
+            for line in b.readlines():
+                if line.find(a)!=-1:
+                    lb = Label(window5, text=line , font = f)
+                    lb.grid(column=1, row=kol)
+                    kol+=1
+                   
     btn = Button(window5, text="ок",  font=f, command=ok)
     btn.grid(column=0, row=2)
 
