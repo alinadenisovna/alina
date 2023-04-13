@@ -50,10 +50,10 @@ def create():
     btn3.grid(column=1, row=5)
 
 
-def openk(): #cтарый текст должен удаляться, удаляется только последняя строка (потому что у меня цикл для lb и получается они все так называются)
+def openk(): ###
     window2 = Tk()
     window2.title("Открыть каталог")
-    window2.geometry('600x400')
+    window2.geometry('1000x700')
     def redakt():
         okno2 = Tk()
         okno2.title("Редактировать каталог")
@@ -71,9 +71,9 @@ def openk(): #cтарый текст должен удаляться, удаля
                 lb2.grid(column=0, row=0)
             with open ('redk.txt', 'w') as b:
                 q=b.write(res+'\n')
-            
-            lb.destroy() #
-            okno2.destroy
+            for label in window2.winfo_children():
+                label=""
+            okno2.destroy()
         btn = Button(okno2, text="ок",  font=f, command=ok)
         btn.grid(column=0, row=2)
     btn1 = Button(window2, text="Редактировать каталог",  font=f, command=redakt)
@@ -100,25 +100,25 @@ def openk(): #cтарый текст должен удаляться, удаля
                 for line in res:
                     q=b.write(line+'\n')
             with open('baza.txt', 'r') as b:
-                kol=1
+                kol=3-
                 for line in b:
                     q=line.strip()
                     lbb=Label(window2, text=q, font = f)
                     lbb.grid(column=0, row=kol)
-                    kol=kol+1
-                #    
+                    kol=kol+1                  
+                lb.destroy()#    
             okno1.destroy()
         btn = Button(okno1, text="ок",  font=f, command=ok)
         btn.grid(column=0, row=4)
     btn2 = Button(window2, text="Пополнить каталог",  font=f, command=popoln)
     btn2.grid(column=1, row=100)
-    with open('baza.txt', 'r') as b:
-        kol=1
+    txt = scrolledtext.ScrolledText(window2, width=52, height=20, font=f, state=NORMAL)
+    txt.grid(column=0, row=0)
+    with open('baza.txt', 'r') as b: 
         for line in b:
             q=line.strip()
-            lb=Label(window2, text=q, font = f)
-            lb.grid(column=0, row=kol)
-            kol=kol+1
+            txt.insert(INSERT, q+'\n')
+            
 
 
 def receive_inside():
@@ -139,13 +139,13 @@ def receive_inside():
         a="Автор: "+txt1.get()
         n="Название: "+txt2.get()
         with open('baza.txt', 'r') as b:
-           for line in b.readlines():
-               if line.find(a)!=-1:
+            lines=b.readlines()
+            for line_idx, line in enumerate (lines):
+                if line.find(a)!=-1 and line[line_idx+1].find(n)!=-1 :
                     txt3 = Entry(window3, width=35, font = f)
                     txt3.grid(column=1, row=4)
-                    txt3.insert(INSERT, line)
-                    
-    
+                    txt3.insert(INSERT, line[line_idx+2])
+                    print(line[line_idx+2])
     btn1 = Button(window3, text="ок",  font=f, command=soderj)
     btn1.grid(column=0, row=3)
     
@@ -160,8 +160,16 @@ def receive_book():
     txt1.grid(column=1, row=0)
     lb2 = Label ( window4, text = "Название: ", font = f )
     lb2.grid(column=0, row=3)
-    
-    btn = Button(window4, text="ок",  font=f)
+    def ok():
+        a=txt1.get()
+        with open('baza.txt', 'r') as b:
+            kol=3
+            for line in b.readlines():
+                if line.find(a)!=-1:
+                    lb = Label(window4, text=line , font = f)
+                    lb.grid(column=1, row=kol)
+                    kol+=1
+    btn = Button(window4, text="ок",  font=f, command=ok)
     btn.grid(column=0, row=2)
     
 def receive_list():
@@ -178,12 +186,12 @@ def receive_list():
         a=txt1.get()
         with open('baza.txt', 'r') as b:
             kol=3
-            for line in b.readlines():
+            lines=b.readlines()
+            for line_idx, line in enumerate (lines):
                 if line.find(a)!=-1:
-                    lb = Label(window5, text=line , font = f)
+                    lb = Label(window5, text=line[line_idx], font = f)
                     lb.grid(column=1, row=kol)
                     kol+=1
-                   
     btn = Button(window5, text="ок",  font=f, command=ok)
     btn.grid(column=0, row=2)
 
