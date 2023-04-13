@@ -100,7 +100,7 @@ def openk(): ###
                 for line in res:
                     q=b.write(line+'\n')
             with open('baza.txt', 'r') as b:
-                kol=3-
+                kol=3
                 for line in b:
                     q=line.strip()
                     lbb=Label(window2, text=q, font = f)
@@ -141,11 +141,15 @@ def receive_inside():
         with open('baza.txt', 'r') as b:
             lines=b.readlines()
             for line_idx, line in enumerate (lines):
+                print(line)
                 if line.find(a)!=-1 and line[line_idx+1].find(n)!=-1 :
+                    print(line)
+                    print(a)
+                    print(n)
                     txt3 = Entry(window3, width=35, font = f)
                     txt3.grid(column=1, row=4)
                     txt3.insert(INSERT, line[line_idx+2])
-                    print(line[line_idx+2])
+                    print(line[line_idx+1])
     btn1 = Button(window3, text="ок",  font=f, command=soderj)
     btn1.grid(column=0, row=3)
     
