@@ -124,7 +124,7 @@ def openk(): ###
 def receive_inside():
     window3 = Tk()
     window3.title("Получить содержание книги")
-    window3.geometry('450x185')
+    window3.geometry('500x250')
     lb1 = Label(window3, text="Автор:", font = f)
     lb1.grid(column=0, row=0)
     txt1 = Entry(window3, width=35, font = f)
@@ -135,23 +135,27 @@ def receive_inside():
     txt2.grid(column=1, row=1)
     lb3 = Label ( window3, text = "Содержание: ", font = f )
     lb3.grid(column=0, row=4)
+    txt3 = scrolledtext.ScrolledText(window3, width=40, height=5, font=f)
+    txt3.grid(column=1, row=4)
     def soderj():
         a="Автор: "+txt1.get()
         n="Название: "+txt2.get()
         with open('baza.txt', 'r') as b:
             lines=b.readlines()
             for line_idx, line in enumerate (lines):
-                print(line)
-                if line.find(a)!=-1 and line[line_idx+1].find(n)!=-1 :
-                    print(line)
-                    print(a)
-                    print(n)
-                    txt3 = Entry(window3, width=35, font = f)
+                if line.find(a)!=-1 and lines[line_idx+1].find(n)!=-1:
+                    txt3 = scrolledtext.ScrolledText(window3, width=40, height=5, font=f)
                     txt3.grid(column=1, row=4)
-                    txt3.insert(INSERT, line[line_idx+2])
-                    print(line[line_idx+1])
+                    txt3.insert(INSERT, lines[line_idx+2][12:])
+    def ochist():
+        txt1.delete(0, END)
+        txt2.delete(0, END)
+        txt3.delete(1.0, END) #не очищает
     btn1 = Button(window3, text="ок",  font=f, command=soderj)
     btn1.grid(column=0, row=3)
+    btn2 = Button(window3, text="очистить",  font=f, command=ochist)
+    btn2.grid(column=1, row=3)
+    
     
     
 def receive_book():
@@ -164,18 +168,25 @@ def receive_book():
     txt1.grid(column=1, row=0)
     lb2 = Label ( window4, text = "Название: ", font = f )
     lb2.grid(column=0, row=3)
+    txt2 = Entry(window4, width=35, font = f)
+    txt2.grid(column=1, row=3)
     def ok():
         a=txt1.get()
         with open('baza.txt', 'r') as b:
-            kol=3
-            for line in b.readlines():
+            lines=b.readlines()
+            for line_idx, line in enumerate (lines):
                 if line.find(a)!=-1:
-                    lb = Label(window4, text=line , font = f)
-                    lb.grid(column=1, row=kol)
-                    kol+=1
+                    txt2.insert(INSERT, lines[line_idx-2][7:])
+    def ochist():
+        txt1.delete(0, END)
+        txt2.delete(0, END)
+    btn2 = Button(window4, text="очистить",  font=f, command=ochist)
+    btn2.grid(column=1, row=2)
     btn = Button(window4, text="ок",  font=f, command=ok)
     btn.grid(column=0, row=2)
-    
+
+
+
 def receive_list():
     window5 = Tk()
     window5.title("Получить список книг с заданным текстом")
@@ -186,16 +197,15 @@ def receive_list():
     txt1.grid(column=1, row=0)
     lb2 = Label ( window5, text = "Список книг: ", font = f )
     lb2.grid(column=0, row=3)
+    txt = scrolledtext.ScrolledText(window5, width=40, height=5, font=f)
+    txt.grid(column=1, row=3)
     def ok():
         a=txt1.get()
         with open('baza.txt', 'r') as b:
-            kol=3
             lines=b.readlines()
             for line_idx, line in enumerate (lines):
                 if line.find(a)!=-1:
-                    lb = Label(window5, text=line[line_idx], font = f)
-                    lb.grid(column=1, row=kol)
-                    kol+=1
+                    txt.insert(INSERT, lines[line_idx-1][10:])
     btn = Button(window5, text="ок",  font=f, command=ok)
     btn.grid(column=0, row=2)
 
