@@ -1,5 +1,6 @@
 from tkinter import *
-from tkinter import scrolledtext  
+from tkinter import scrolledtext
+
 from tkinter.messagebox import askokcancel
 from tkinter import filedialog
 window = Tk()
@@ -10,46 +11,52 @@ f=("Times New Roman", 14)
 
 def create():
     filename = filedialog.asksaveasfilename(filetypes=[("Текстовый документ", "*.txt")])
-    window1 = Tk()
-    window1.title("Создать новый каталог")
-    window1.geometry('450x185')
-    lb1 = Label(window1, text="Автор:", font = f)
-    lb1.grid(column=0, row=0)
-    txt1 = Entry(window1, width=35, font = f)
-    txt1.grid(column=1, row=0)
-    lb2 = Label ( window1, text = "Название: ", font = f )
-    lb2.grid(column=0, row=1)
-    txt2 = Entry(window1, width=35, font = f)
-    txt2.grid(column=1, row=1)
-    lb3 = Label ( window1, text = "Содержание: ", font = f )
-    lb3.grid(column=0, row=2)
-    txt3 = Entry(window1, width=35, font = f)
-    txt3.grid(column=1, row=2)
-    def further():
-        lines=["Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()+'\n']
-        with open (filename, 'a') as b:
-            for line in lines:
-                q=b.write(line+'\n')
-    def sozdat():
-        okno = Tk()
-        okno.title("Новый каталог")
-        okno.geometry('490x422')
-        txt = scrolledtext.ScrolledText(okno, width=52, height=20, font=f)
-        txt.grid(column=0, row=0)
-        with open(filename, 'r') as b:
-            for line in b:
-                q=line.strip()
-                txt.insert(INSERT, q+'\n')
-    def ochist():
-        txt1.delete(0, END)
-        txt2.delete(0, END)
-        txt3.delete(0, END)
-    btn1 = Button(window1, text="Далее",  font=f, command=further, state=NORMAL)
-    btn1.grid(column=0, row=6)
-    btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
-    btn2.grid(column=1, row=6)
-    btn3 = Button(window1, text="Очистить",  font=f, command=ochist)
-    btn3.grid(column=1, row=5)
+    if filename:
+        window1 = Tk()
+        window1.title("Создать новый каталог")
+        window1.geometry('450x185')
+        lb1 = Label(window1, text="Автор:", font = f)
+        lb1.grid(column=0, row=0)
+        txt1 = Entry(window1, width=35, font = f)
+        txt1.grid(column=1, row=0)
+        lb2 = Label ( window1, text = "Название: ", font = f )
+        lb2.grid(column=0, row=1)
+        txt2 = Entry(window1, width=35, font = f)
+        txt2.grid(column=1, row=1)
+        lb3 = Label ( window1, text = "Содержание: ", font = f )
+        lb3.grid(column=0, row=2)
+        txt3 = Entry(window1, width=35, font = f)
+        txt3.grid(column=1, row=2)
+        def further():
+            if (txt1.get()!=' ' and txt2.get()!=' ' and txt3.get()!=' '):
+                lines=["Автор: "+txt1.get(),"Название: "+txt2.get(),"Содержание: "+txt3.get()+'\n']
+                with open (filename, 'a') as b:
+                    for line in lines:
+                        q=b.write(line+'\n')
+            else:
+                askokcancel("Ошибка", "Заполните все поля")
+        def sozdat():
+            okno = Tk()
+            okno.title("Новый каталог")
+            okno.geometry('490x422')
+            txt = scrolledtext.ScrolledText(okno, width=52, height=20, font=f)
+            txt.grid(column=0, row=0)
+            with open(filename, 'r') as b:
+                for line in b:
+                    q=line.strip()
+                    txt.insert(INSERT, q+'\n')
+        def ochist():
+            txt1.delete(0, END)
+            txt2.delete(0, END)
+            txt3.delete(0, END)
+        btn1 = Button(window1, text="Далее",  font=f, command=further, state=NORMAL)
+        btn1.grid(column=0, row=6)
+        btn2 = Button(window1, text="Создать каталог",  font=f, command=sozdat)
+        btn2.grid(column=1, row=6)
+        btn3 = Button(window1, text="Очистить",  font=f, command=ochist)
+        btn3.grid(column=1, row=5)
+    else:
+        askokcancel("Ошибка", "Вы не выбрали файл")
 
 
 def openk():
